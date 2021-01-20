@@ -25,8 +25,9 @@
 (defun as-float (price)
   (read-from-string price))
 
-(-> (api-response)
- decoded-response
- parse-json
- extract-price
- as-float)
+(defun btc-price-now ()
+  (-> (api-response)
+      decoded-response
+      parse-json
+      extract-price
+      as-float))
