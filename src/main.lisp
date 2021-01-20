@@ -1,16 +1,16 @@
 (defpackage btc-price
-  (:use :cl)
+  (:use :cl :arrows)
   (:export :get-price))
 (in-package :btc-price)
 
 (ql:quickload :drakma)
 (ql:quickload :yason)
+(ql:quickload :arrows)
 
 (defvar *api-url* "https://api1.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT")
 (defvar *key* "lastPrice")
 
 (defun api-response ()
-  "hit the api"
   (drakma:http-request *api-url* :decode-content t))
 
 (defun decoded-response (response)
@@ -25,4 +25,8 @@
 (defun as-float (price)
   (read-from-string price))
 
-(as-float (extract-price (parse-json (decoded-response (api-response)))))
+(-> (api-response)
+ decoded-response
+ parse-json
+ extract-price
+ as-float)

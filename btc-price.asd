@@ -2,7 +2,7 @@
   :version "0.1.0"
   :author ""
   :license ""
-  :depends-on ("drakma" "yason")
+  :depends-on ("drakma" "yason" "arrows")
   :components ((:module "src"
                 :components
                 ((:file "main"))))
