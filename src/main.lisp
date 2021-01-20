@@ -1,14 +1,11 @@
 (defpackage btc-price
-  (:use :cl :arrows)
-  (:export :get-price))
+  (:use :cl :arrows :function-cache)
+  (:export :btc-price-cached))
 (in-package :btc-price)
 
-(ql:quickload :drakma)
-(ql:quickload :yason)
-(ql:quickload :arrows)
-
-(defvar *api-url* "https://api1.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT")
-(defvar *key* "lastPrice")
+(defparameter *api-url* "https://api1.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT")
+(defparameter *key* "lastPrice")
+(defparameter *cache-timeout* 600)
 
 (defun api-response ()
   (drakma:http-request *api-url* :decode-content t))
@@ -31,3 +28,6 @@
       parse-json
       extract-price
       as-float))
+
+(defcached (btc-price-cached :timeout *cache-timeout*) ()
+  (btc-price-now))
