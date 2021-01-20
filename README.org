@@ -1,5 +1,15 @@
-* Btc-Price 
+* Btc-Price
+
+System to fetch BTCUSDT price from Binance API.
+
+Result is cached for 10 minutes.
 
 ** Usage
+
+#+begin_src common-lisp
+(ql:quickload "btc-price")
+(btc-price:btc-price-cached)
+1234.567890
+#+end_src
 
 ** Installation
